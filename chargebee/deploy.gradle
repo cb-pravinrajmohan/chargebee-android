@@ -12,36 +12,40 @@ ext["signing.secretKeyRingFile"] = ''
 ext["maven_username"] = ''
 ext["maven_password"] = ''
 
-File secretPropsFile = project.rootProject.file('local.properties')
-if (secretPropsFile.exists()) {
-    println "Found secret props file, loading props"
-    Properties p = new Properties()
-    p.load(new FileInputStream(secretPropsFile))
-    p.each { name, value ->
-        ext[name] = value
-    }
-} else {
-    println "No props file, loading env vars"
-    ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
-    ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
-    ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
-    ext["maven_username"] = System.getenv('MAVEN_USERNAME')
-    ext["maven_password"] = System.getenv('MAVEN_PASSWORD')
-}
+//File secretPropsFile = project.rootProject.file('local.properties')
+//if (secretPropsFile.exists()) {
+//    println "Found secret props file, loading props"
+//    Properties p = new Properties()
+//    p.load(new FileInputStream(secretPropsFile))
+//    p.each { name, value ->
+//        ext[name] = value
+//    }
+//} else {
+//    println "No props file, loading env vars"
+//    ext["signing.keyId"] = System.getenv('SIGNING_KEY_ID')
+//    ext["signing.password"] = System.getenv('SIGNING_PASSWORD')
+//    ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE')
+//    ext["maven_username"] = System.getenv('MAVEN_USERNAME')
+//    ext["maven_password"] = System.getenv('MAVEN_PASSWORD')
+//}
 
 publishing {
 
     repositories {
-        maven {
-            name = "maven"
-            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
-            url = PUBLISH_VERSION.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username maven_username
-                password maven_password
-            }
-        }
+//        maven {
+//            name = "maven"
+//            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+//            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+//            url = PUBLISH_VERSION.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+//            credentials {
+//                username maven_username
+//                password maven_password
+//            }
+//        }
+        mavenLocal()
+//        maven {
+//            url '/Users/manuelj/apache/maven/repository'
+//        }
     }
 
     publications {
@@ -51,16 +55,16 @@ publishing {
             version = PUBLISH_VERSION
 
             pom {
-                name.set("Chargebee Android")
+                name.set("Chargebee.Android")
                 description.set("Chargebee’s Android SDK will support making and managing in-app purchase subscriptions")
                 url.set("https://www.chargebee.com")
-                licenses {
-                    license {
-                        name.set("The MIT License")
-                        url.set("https://raw.githubusercontent.com/chargebee/chargebee-android/master/LICENSE/licenses/LICENSE-2.0.txt")
-                        distribution.set("repo")
-                    }
-                }
+//                licenses {
+//                    license {
+//                        name.set("The MIT License")
+//                        url.set("https://raw.githubusercontent.com/chargebee/chargebee-android/master/LICENSE/licenses/LICENSE-2.0.txt")
+//                        distribution.set("repo")
+//                    }
+//                }
                 developers {
                     developer {
                         id.set("cb-imayaselvan ")
@@ -71,11 +75,11 @@ publishing {
                         email.set("amutha.c@chargebee.com")
                     }
                 }
-                scm {
-                    connection.set("scm:git@github.com:chargebee/chargebee-android.git")
-                    developerConnection.set("scm:git@github.com:chargebee/chargebee-android.git")
-                    url.set("https://github.com/chargebee/chargebee-android")
-                }
+//                scm {
+//                    connection.set("scm:git@github.com:chargebee/chargebee-android.git")
+//                    developerConnection.set("scm:git@github.com:chargebee/chargebee-android.git")
+//                    url.set("https://github.com/chargebee/chargebee-android")
+//                }
             }
         }
     }
