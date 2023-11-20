@@ -506,9 +506,15 @@ class BillingClientManager(context: Context) : PurchasesUpdatedListener {
         connectionError: (CBException) -> Unit
     ) = object :
         BillingClientStateListener {
+        var hasResponded: Boolean = false
+
         override fun onBillingServiceDisconnected() {
             Log.i(javaClass.simpleName, "onBillingServiceDisconnected")
-            status(false)
+            if (hasResponded) {
+                Log.i(javaClass.simpleName, "onBillingServiceDisconnected broadcaster")
+                status(false)
+            }
+            hasResponded = true
         }
 
         override fun onBillingSetupFinished(billingResult: BillingResult) {
